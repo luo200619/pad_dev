@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>库存查询</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/jquery-ui-1.10.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="css/layer-app.css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/jquery-bpopup-min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.js"></script>
+    <script type="text/javascript">
+		function creatTable(data){
+			 var tableData="<tr>"
+			 //动态增加5个td,并且把data数组的五个值赋给每个td
+			 for(var i=0;i<data.length;i++){
+			  tableData+="<td>"+data[i]+"</td>"
+			 }
+			 tableData+="</tr>"
+			 //现在tableData已经生成好了，把他赋值给上面的tbody
+			 $("#tbody1").html(tableData)
+		}
+    </script>
+</head>
+<body>
+	<div id="app">
+	    <div class="content">
+	        <div class="container">		
+				<a href="home.html" style="font-size:18px;">
+					<div class="menu" style="margin-top:20px;">返回上级</div>
+				</a>
+				<div class="normal-form-row">
+					<span style="padding-top:10px; text-align: right">
+						仓库 <input type="text" id="txtBarcode" style="width: 72%" v-model="info.iLgnum"/>
+					</span>
+				</div>
+				<div class="normal-form-row">
+					<span style="padding-top:10px; text-align: right">
+						工厂 <input type="text" id="txtNotification" style="width: 72%" v-model="info.iWerks"/>
+					</span>
+				</div>
+				<div class="normal-form-row">
+					<span style="padding-top:10px; text-align: right">
+						物料编号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iMatnr"/>
+					</span>
+				</div>
+				<div style="height: 1px; background-color: #f2f3f4; margin-top:10px;"></div>
+				<div class="normal-form-row">
+					<span style="padding-top:20px; text-align:center">
+					<input type="button" id="btnDelete" value="重置" style="color: #666666" @click="btnDelete"/>
+					<input type="button" id="btnSubmit" value="查询" style="color: #666666" @click="btnSubmit"/>
+					</span>
+				</div>
+				<div class="col-md-12">	
+					<table>
+					    <tbody id="tbody1">
+                            <tr>
+                                <td>仓位</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+					</table>
+				</div>	
+			</div>
+	    </div>		
+	</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.20.0-0/axios.js"></script>
+<script type="text/javascript" src="js/service.js"></script>
+<script>
+    var app = new Vue({
+    	el:'#app',
+    	data:{
+    		info:{
+    			iLgnum:'',
+    			iMatnr:'',
+    			iUname:'MOONSRFC',
+    			iWerks:'',
+                etList: {
+                    item: [{
+                        charg: "",
+                        gesme: 0,
+                        kzler: "",
+                        kzvol: "",
+                        lgort: "",
+                        lgpla: "",
+                        lgtyp: "",
+                        maktx: "",
+                        matnr: "",
+                        meins: "",
+                        mseh3: "",
+                        mseht: "",
+                        skzue: "",
+                        sobkz: "",
+                        sonum: "",
+                        verme: 0,
+                        wdatu: ""
+                    }]
+                }
+    	   }
+        },
+    	methods:{
+    		/**
+    		 * [initialize 初始化]
+    		 * @author 	   szjcomo
+    		 * @createTime 2020-07-28
+    		 * @return     {[type]}   [description]
+    		 */
+    		initialize:function() {
+    			console.log('initialize');
+    		},
+    		/**
+    		 * [btnDelete 查询]
+    		 * @author 	   szjcomo
+    		 * @createTime 2020-07-28
+    		 * @return     {[type]}   [description]
+    		 */
+    		btnDelete:function() {
+    			let that = this;
+    			that.info.iLgnum = '';
+    			that.info.iMatnr = '';
+    			that.info.iUname = 'MOONSRFC';
+    			that.info.iWerks = '';
+    		},
+    		/**
+    		 * [btnSubmit 提交查询]
+    		 * @author 	   szjcomo
+    		 * @createTime 2020-07-28
+    		 * @return     {[type]}   [description]
+    		 */
+    		btnSubmit:async function() {
+    			let that = this;
+    			let validate = that.submit_validate();
+    			if(validate.error !== false) {
+    				layer.alert(validate.message,szjcomo_service.layer_options({title:'参数完善提醒',icon:2}));
+    				return false;
+    			}
+    			let result = await szjcomo_service.find_stock(that.info);
+    			if(result.error !== false) {
+    				layer.alert(result.message,szjcomo_service.layer_options({icon:2,title:'库存查询失败提醒'}));
+    				return false;
+    			}
+    			console.log(result);
+    		},
+    		/**
+    		 * [submit_validate 验证数据]
+    		 * @author 	   szjcomo
+    		 * @createTime 2020-07-28
+    		 * @return     {[type]}   [description]
+    		 */
+    		submit_validate:function() {
+    			let that = this;
+    			if(that.info.iLgnum.length == 0) return szjcomo_service.appResult('仓库号不能为空');
+    			if(that.info.iWerks.length == 0) return szjcomo_service.appResult('工厂参数不能为空');
+    			if(that.info.iMatnr.length == 0) return szjcomo_service.appResult('物料编号不能为空');
+    			return szjcomo_service.appResult('SUCCESS',that.info,false);
+    		}
+    	},
+    	created:function() {
+    		this.initialize();
+    	}
+    });
+
+</script>
+</body>
+</html>

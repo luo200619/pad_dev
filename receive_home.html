@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>入库HOME</title>
+    
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/jquery-ui-1.10.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/jquery-bpopup-min.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script type="text/javascript">
+        $(function () {
+            $('#btnBack').click(function () {
+                document.location.href = "home.html";
+            });
+            
+			$(document).ready(function () {
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="dialog" title="提示消息" style="display: none; width: 200px; height: 120px;">
+        <div id="divMsg" style="color: #fff; margin: 30px; text-align:center;">
+        </div>
+    </div>
+    <div class="content">
+	
+        <div class="container">		
+            
+            <a href="home.html" style="font-size:18px;"><div class="menu" style="margin-top:20px;">返回上级</div></a>
+            <a href="receive_index.html" style="font-size:18px;"><div class="menu" style="margin-top:40px;">收货管理</div></a>
+            <a href="receive_onshelve.html" style="font-size:18px;"><div class="menu">入库上架</div></a>
+            <a href="po_return_index.html" style="font-size:18px;"><div class="menu">订单退库</div></a>
+            <a href="confirm_index.html" style="font-size:18px;"><div class="menu">配送确认</div></a>
+				
+		</div>
+    </div>
+</body>
+</html>

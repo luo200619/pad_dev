@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>退库处理</title>
+    
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/jquery-ui-1.10.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/jquery-bpopup-min.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script type="text/javascript">
+        $(function () {
+            $('#btnBack').click(function () {
+                document.location.href = "home.html";
+            });
+            
+			$(document).ready(function () {
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="dialog" title="提示消息" style="display: none; width: 200px; height: 120px;">
+        <div id="divMsg" style="color: #fff; margin: 30px; text-align:center;">
+        </div>
+    </div>
+    <div class="content">
+	
+        <div class="container">
+		
+		    <div class="col-md-12">	
+				<div class="normal-form-row">
+					<span style="padding-top:10px; text-align: right">
+						条码信息 <input type="text" id="txtBarcode" style="width: 80%" value="" />
+					</span>
+				</div>
+			</div>
+			
+			<div class="col-md-12">	
+				<div class="normal-form-row">
+					<span style="padding-top:10px; text-align: right">
+						提示信息 <input type="text" id="txtNotification" style="width: 80%" value="" />
+					</span>
+				</div>
+			</div>
+			
+			<div class="col-md-12">	
+				<div class="normal-form-row">
+					<span style="padding-top:8px">
+					    物料编码 <input type="text" id="txtVendor" style="width: 100px" value="" />
+			            &nbsp;&nbsp;物料描述 <input type="text" id="txtVendor" style="width: 100px"  value="" />
+					</span>
+				</div> 
+            </div>	
+			
+		    <div class="col-md-12">	
+				<div class="normal-form-row">
+					<span style="padding-top:8px">
+					    退货单号 <input type="text" id="txtVendor" style="width: 100px" value="" />
+			            &nbsp;&nbsp;退货数量 <input type="text" id="txtVendor" style="width: 100px"  value="" />
+					</span>
+				</div> 
+            </div>
+			
+			<div class="col-md-12">	
+				<div class="normal-form-row">
+					<span style="padding-top:8px">
+						退货批次 <input type="text" id="txtVendor" style="width: 100px" value="" />
+						&nbsp;&nbsp;货架编号 <input type="text" id="txtVendor" style="width: 100px" value="" />
+					</span>
+				</div>
+			</div>
+			
+			<div class="col-md-12">	
+				<div class="normal-form-row">
+					<span style="padding-top:10px; text-align:left">
+						数量 <input type="text" id="txtVendor" style="width: 100px" value="" />
+						&nbsp;&nbsp;余数 <input type="text" id="txtVendor" style="width: 100px" value="" />
+					</span>
+				</div>
+			</div>
+			
+			<div class="col-md-12">	
+				<div class="normal-form-row">
+					<span style="padding-top:10px; text-align:left">
+					  仓储类型 <input type="text" id="txtVendor" style="width: 100px" value="" />   				  
+					</span>
+				</div> 
+            </div>
+			
+			<div class="col-md-12">	
+				<div class="normal-form-row">
+					<span style="padding-top:10px; text-align:center">
+					  <input type="button" id="btnAdd" value=" 加 入 " style="color: #666666;" />
+					  &nbsp;&nbsp;<input type="button" id="btnAdd" value="打印余数标签" style="color: #666666;" />					  
+					</span>
+				</div> 
+            </div>
+			
+			<div style="height: 1px; background-color: #f2f3f4; margin-top:10px;"></div>
+			
+			<div class="col-md-12">	
+				<div class="normal-form-row">
+				  <span style="padding-top:20px; text-align:center">
+					<input type="button" id="btnDelete" value="所选删除" style="color: #666666" />
+					<input type="button" id="btnSubmit" value="提交SAP" style="color: #666666" />
+				  </span>
+				</div>
+			</div>		
+			
+			<div class="col-md-12">	
+				<table>
+				    <tbody id="tbody1">
+				    </tbody>
+				</table>
+			</div>	
+		</div>
+    </div>
+</body>
+</html>

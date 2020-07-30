@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>用户登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/jquery-ui-1.10.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/layer-app.css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/jquery-bpopup-min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.js"></script>
+</head>
+<body>
+    <div class="app-main" id="app">
+        <div class="content">
+            <h1 style="height:60px;font-size:18px;text-shadow:-1px 2px 5px #ff9900;color:#fff;line-height:60px;text-align:center;background-color:#009688;margin-bottom:40px;">手持机数据管理中心</h1>
+            <div class="container">
+                <div class="normal-form-row">
+                    <span style="padding-top:8px; text-align: right">
+                        用户名 <input type="text" id="txtBarcode" style="width: 72%" value="" v-model="iUname"/>
+                    </span>
+                </div>
+                <div class="normal-form-row">
+                    <span style="padding-top:8px; text-align: right">
+                        密码 <input type="password" id="txtNotification" style="width: 72%" v-model="iPassword"/>
+                    </span>
+                </div>
+                <div class="normal-form-row">
+                    <span style="padding-top:8px; text-align: right">
+                        工厂 <input type="text" id="txtVendor" style="width: 72%" v-model="iGroup" />
+                    </span>
+                </div> 
+                <div style="height: 1px; background-color: #f2f3f4; margin-top:10px;"></div>
+                <div class="normal-form-row">
+                    <!-- <span style="padding-top:20px; text-align:center">
+                        <input type="button" id="login" value="登录" style="color: #666666" @click="submit_login"/>
+                    </span> -->
+                    <input type="button" value="立即登录" style="background-color:#ff9900;color:#fff;border:none;height:45px;font-size:18px;width:100%;margin:20px auto;" @click="submit_login">
+                </div>
+            </div>
+        </div>        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.20.0-0/axios.js"></script>
+    <script type="text/javascript" src="js/service.js"></script>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                iUname:'',
+                iPassword:'',
+                iGroup:''
+            },
+            methods:{
+                /**
+                 * [initialize 初始化功能]
+                 * @author        szjcomo
+                 * @createTime 2020-07-28
+                 * @return     {[type]}   [description]
+                 */
+                initialize:function() {
+                    console.log('hello world');
+                },
+                /**
+                 * [submit_login 用户登录功能]
+                 * @author        szjcomo
+                 * @createTime 2020-07-28
+                 * @return     {[type]}   [description]
+                 */
+                submit_login:async function() {
+                    let that = this;
+                    let validate = that.submit_validate();
+                    if(validate.error !== false) {
+                        layer.alert(validate.message,szjcomo_service.layer_options({icon:2,title:'参数完善提醒'}));
+                        return false;
+                    }
+                    let result = await szjcomo_service.login(that.iUname,that.iPassword,that.iGroup);
+                    if(result.error !== false) {
+                        layer.alert(result.message,szjcomo_service.layer_options({icon:2,title:'登录失败提醒'}));
+                        return false;
+                    }
+                    layer.msg('登录成功,3秒后进入管理中心',{
+                        title:'登录成功提醒',
+                        icon:1,
+                        closeBtn:false,shade:0.5
+                    },function(){
+                        document.location.href = "home.html";
+                    })
+                },
+                /**
+                 * [submit_validate 登录检查]
+                 * @author        szjcomo
+                 * @createTime 2020-07-28
+                 * @return     {[type]}   [description]
+                 */
+                submit_validate:function() {
+                    let that = this;
+                    let fields = {
+                        iUname:'用户名不能为空',
+                        iPassword:'用户密码不能为空',
+                        iGroup:'工厂参数不能为空'
+                    };
+                    let res = szjcomo_service.check_empty(fields,{iUname:that.iUname,iPassword:that.iPassword,iGroup:that.iGroup});
+                    return res;
+                }
+            },
+            created(){
+                // console.log('kv')
+                // const param = {iUname: "SF001"}
+                // axios.post("http://soap.hysjgyey.com/sap/ziqcCheckPdaUname", param).then(res => {
+                //     console.log('res: ', res)
+                // })
+                this.initialize();
+            },
+        })
+    </script>
+</body>
+</html>

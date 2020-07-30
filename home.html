@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>管理中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/jquery-ui-1.10.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/layer-app.css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/jquery-bpopup-min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.js"></script>
+</head>
+<body>
+    <div class="content">
+        <div class="container">
+            <div class="col-md-2">
+                <a href="receive_home.html" style="font-size:18px;"><div class="menu" style="margin-top:20px;">入库管理</div></a>
+                <a href="transfer_home.html" style="font-size:18px;"><div class="menu">移库管理</div></a>
+                <a href="order_home.html" style="font-size:18px;"><div class="menu">物料配送</div></a>
+                <a href="inventory_enquiry.html" style="font-size:18px;"><div class="menu">库存查询</div></a>
+                <a href="print.html" style="font-size:18px;"><div class="menu">标签打印</div></a>
+            </div>
+        </div>
+        <div style="height: 1px; background-color: #f2f3f4; margin-top:10px;"></div>
+        <div class="col-md-12">       
+            <div class="normal-form-row" style="padding-top: 20px; clear: both;">
+                <!-- <span style="display: inline-block; float: left;">
+                用户名：admin</span><span style="display: inline-block; float: right;">
+                  <input type="button" id="zhuxiao" value="注销" style="color: #666666"/>
+                </span> -->
+                <input type="button" value="注销退出" style="width:90%;margin:0 auto;display:block;height:60px;background-color:#ff9900;color:#fff;border:none;font-size:18px;" id="zhuxiao">
+              </div>
+            </div>
+        </div>      
+    </div>
+    <script>
+        //全局使用。即所有弹出层都默认采用，但是单个配置skin的优先级更高
+        layer.config({skin: 'demo-class'})
+        jQuery(function() {
+            jQuery('#zhuxiao').click(function() {
+                layer.confirm('您确定要注销退出吗?',{
+                    title:'注销退出提醒',
+                    btn:['确定退出','我点错了'],
+                    closeBtn:false,
+                    yes:function() {
+                       window.location.href='login.html'; 
+                    },
+                    btn1:function() {
+                        console.log('123');
+                    }
+                })
+            })
+        })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+body .demo-class .layui-layer-title{background:#FF5722; color:#fff; border: none;}
+body .demo-class .layui-layer-btn a{background:#01AAED;}
+body .demo-class .layui-layer-btn .layui-layer-btn1{background:#FFB800;}
+body .demo-class .layui-layer-btn .layui-layer-btn0{background-color:none;}
+body .demo-class .layui-layer-content{height:auto !important;}

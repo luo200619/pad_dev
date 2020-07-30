@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>生产工单发料生成首页</title>
+    
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/jquery-ui-1.10.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/jquery-bpopup-min.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script type="text/javascript">
+        $(function () {
+            $('#btnBack').click(function () {
+                document.location.href = "home.html";
+            });
+            
+			$(document).ready(function () {
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="dialog" title="提示消息" style="display: none; width: 200px; height: 120px;">
+        <div id="divMsg" style="color: #fff; margin: 30px; text-align:center;">
+        </div>
+	</div>
+	
+    <div class="content">
+	
+        <div class="container">
+			
+			<a href="order_home.html" style="font-size:18px;"><div class="menu" style="margin-top:20px;">返回上级</div></a>
+			
+			<div class="normal-form-row">
+				<span style="padding-top:8px; text-align: right">
+					工厂 <input type="text" id="txtVendor" style="width: 72%" value="" />
+				</span>
+			</div> 
+
+			<div class="normal-form-row">
+				<span style="padding-top:8px; text-align: right">
+					仓库号 <input type="text" id="txtVendor" style="width: 72%" value="" />
+				</span>
+			</div>
+
+			<div class="normal-form-row">
+				<span style="padding-top:8px; text-align: right">
+					物料编码 <input type="text" id="txtVendor" style="width: 72%" value="" />
+				</span>
+			</div> 
+
+			<div class="normal-form-row">
+				<span style="padding-top:8px; text-align: right">
+					退料单号 <input type="text" id="txtVendor" style="width: 72%" value="" />
+				</span>
+			</div> 
+
+			<div class="normal-form-row">
+				<span style="padding-top:8px; text-align: right">
+					起始日期 <input type="text" id="txtVendor" style="width: 72%" value="" />
+				</span>
+			</div>
+
+			<div class="normal-form-row">
+				<span style="padding-top:8px; text-align: right">
+					结束日期 <input type="text" id="txtVendor" style="width: 72%" value="" />
+				</span>
+			</div>
+
+			<div class="normal-form-row">
+				<span style="padding-top:8px; text-align: right">
+					移动类型 <input type="text" id="txtVendor" style="width: 72%" value="" />
+				</span>
+			</div>
+
+			<div class="normal-form-row">
+				<span style="padding-top:8px; text-align: right">
+					成本中心 <input type="text" id="txtVendor" style="width: 72%" value="" />
+				</span>
+			</div>
+
+			<div style="height: 1px; background-color: #f2f3f4; margin-top:10px;"></div>
+
+				<div class="normal-form-row">
+					<span style="padding-top:20px; text-align:center">
+					<input type="button" id="btnDelete" value="清空所有" style="color: #666666" />
+					<input type="button" id="btnSubmit" value="处理所选" style="color: #666666" />
+					</span>
+				</div>		
+			</div>
+    </div>
+</body>
+</html>

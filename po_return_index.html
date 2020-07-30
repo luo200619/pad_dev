@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>退库凭证查询</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/jquery-ui-1.10.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/layer-app.css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.10.js"></script>
+    <script type="text/javascript" src="js/jquery.form.js"></script>
+    <script type="text/javascript" src="js/jquery-bpopup-min.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.js"></script>
+</head>
+<body>
+	<div id="app">
+	    <div class="content">
+	        <div class="container">
+				<a href="receive_home.html" style="font-size:18px;"><div class="menu" style="margin-top:20px;">返回上级</div></a>
+				<div class="normal-form-row">
+					<span style="padding-top:8px">
+						工厂编号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iAufnr" />
+					</span>
+				</div> 
+				<div class="normal-form-row">
+					<span style="padding-top:8px">
+						仓库编号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iBwart" />
+					</span>
+				</div>
+				<div class="normal-form-row">
+					<span style="padding-top:8px">
+						物料编码 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iMatnr" />
+					</span>
+				</div> 
+				<div class="normal-form-row">
+					<span style="padding-top:8px">
+						退库凭证 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iLgnum" />
+					</span>
+				</div>
+				<div class="normal-form-row">
+					<span style="padding-top:8px">
+						起始时间 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iHbdatu" />
+					</span>
+				</div>
+				<div class="normal-form-row">
+					<span style="padding-top:8px">
+						结束时间 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iLbdatu" />
+					</span>
+				</div>
+				<div class="normal-form-row">
+					<span style="padding-top:8px">
+						移动类型 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iWempf" />
+					</span>
+				</div>
+				<div class="normal-form-row">
+					<span style="padding-top:8px">
+						采购单号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iWerks" />
+					</span>
+				</div>
+				<div style="height: 1px; background-color: #f2f3f4; margin-top:10px;"></div>
+				<div class="normal-form-row">
+					<span style="padding-top:20px; text-align:center">
+					<input type="button" id="btnDelete" value="重置" style="color: #666666" @click="btnDelete"/>
+					<input type="button" id="btnSubmit" value="查询" style="color: #666666" @click="btnSubmit"/>
+					</span>
+				</div>
+			</div>
+	    </div>		
+	</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.20.0-0/axios.js"></script>
+<script type="text/javascript" src="js/service.js"></script>
+<script>
+   	var app = new Vue({
+   		el:'#app',
+   		data:{
+   			info:{}
+   		},
+   		methods:{
+   			initialize:function() {
+
+   			},
+   			/**
+   			 * [btnSubmit 提交]
+   			 * @author 	   szjcomo
+   			 * @createTime 2020-07-28
+   			 * @return     {[type]}   [description]
+   			 */
+   			btnSubmit:async function() {
+   				let that = this;
+   				let validate = that.submit_validate();
+   				if(validate.error !== false) {
+   					layer.alert(validate.message,szjcomo_service.layer_options({icon:2,title:'信息完善提醒'}));
+   					return false;
+   				}
+   				let result = await szjcomo_service.po_return_index(validate.data);
+   				if(result.error !== false) {
+   					layer.alert(result.message,szjcomo_service.layer_options({icon:2,title:'信息提交失败提醒'}));
+   					return false;
+   				}
+   				console.log(result);
+   			},
+   			/**
+   			 * [submit_validate 表单检查]
+   			 * @author 	   szjcomo
+   			 * @createTime 2020-07-28
+   			 * @return     {[type]}   [description]
+   			 */
+   			submit_validate:function() {
+   				let that = this;
+   				let fields = {
+   					iAufnr:'工厂编号不能为空',
+   					iMatnr:'物料编码不能为空',
+   					iBwart:'仓库编号不能为空',
+   					iLgnum:'退库凭证不能为空',
+   					iHbdatu:'开始时间不能为空',
+   					iLbdatu:'结束时间不能为空',
+   					iWempf:'移动类型不能为空',
+   					iWerks:'采购单号不能为空'
+   				};
+   				let res = szjcomo_service.check_empty(fields,that.info);
+   				return res;
+   			},
+   			/**
+   			 * [btnDelete 重置]
+   			 * @author 	   szjcomo
+   			 * @createTime 2020-07-28
+   			 * @return     {[type]}   [description]
+   			 */
+   			btnDelete:function() {
+   				let that = this;
+   				that.info = {};
+   			}
+   		},
+   		created:function() {
+   			this.initialize();
+   		}
+   	});
+</script>
+</body>
+</html>
