@@ -1,100 +1,172 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>生产工单发料生成首页</title>
-    
     <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/jquery-ui-1.10.css" rel="stylesheet" type="text/css" />
-
+    <link rel="stylesheet" href="css/layer-app.css">
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.10.js"></script>
     <script type="text/javascript" src="js/jquery.form.js"></script>
     <script type="text/javascript" src="js/jquery-bpopup-min.js"></script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-    <script type="text/javascript">
-        $(function () {
-            $('#btnBack').click(function () {
-                document.location.href = "home.html";
-            });
-            
-			$(document).ready(function () {
-            });
-        });
-    </script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.js"></script>
 </head>
 <body>
-    <div id="dialog" title="提示消息" style="display: none; width: 200px; height: 120px;">
-        <div id="divMsg" style="color: #fff; margin: 30px; text-align:center;">
-        </div>
-	</div>
-	
-    <div class="content">
-	
+    <div class="content" id="app">
         <div class="container">
-			
 			<a href="order_home.html" style="font-size:18px;"><div class="menu" style="margin-top:20px;">返回上级</div></a>
-			
 			<div class="normal-form-row">
 				<span style="padding-top:8px; text-align: right">
-					工厂 <input type="text" id="txtVendor" style="width: 72%" value="" />
+					工厂 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iWerks"/>
 				</span>
 			</div> 
-
 			<div class="normal-form-row">
 				<span style="padding-top:8px; text-align: right">
-					仓库号 <input type="text" id="txtVendor" style="width: 72%" value="" />
+					仓库号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iLgnum"  />
 				</span>
 			</div>
-
 			<div class="normal-form-row">
 				<span style="padding-top:8px; text-align: right">
-					物料编码 <input type="text" id="txtVendor" style="width: 72%" value="" />
+					物料编码 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iMatnr" />
 				</span>
 			</div> 
-
 			<div class="normal-form-row">
 				<span style="padding-top:8px; text-align: right">
-					退料单号 <input type="text" id="txtVendor" style="width: 72%" value="" />
+					退料单号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iAufnr" />
 				</span>
 			</div> 
-
 			<div class="normal-form-row">
 				<span style="padding-top:8px; text-align: right">
-					起始日期 <input type="text" id="txtVendor" style="width: 72%" value="" />
+					起始日期 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iHbdatu" />
 				</span>
 			</div>
-
 			<div class="normal-form-row">
 				<span style="padding-top:8px; text-align: right">
-					结束日期 <input type="text" id="txtVendor" style="width: 72%" value="" />
+					结束日期 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iLbdatu" />
 				</span>
 			</div>
-
 			<div class="normal-form-row">
 				<span style="padding-top:8px; text-align: right">
-					移动类型 <input type="text" id="txtVendor" style="width: 72%" value="" />
+					移动类型 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iBwart" />
 				</span>
 			</div>
-
 			<div class="normal-form-row">
 				<span style="padding-top:8px; text-align: right">
-					采购订单号 <input type="text" id="txtVendor" style="width: 72%" value="" />
+					采购订单号 <input type="text" id="txtVendor" style="width: 65%" v-model="info.iWempf" />
 				</span>
 			</div>
-
 			<div style="height: 1px; background-color: #f2f3f4; margin-top:10px;"></div>
-
 				<div class="normal-form-row">
 					<span style="padding-top:20px; text-align:center">
-					<input type="button" id="btnDelete" value="清空所有" style="color: #666666" />
-					<input type="button" id="btnSubmit" value="处理所选" style="color: #666666" />
+					<input type="button" id="btnDelete" value="清空所有" style="color: #666666" @click="btnDelete"/>
+					<input type="button" id="btnSubmit" value="处理所选" style="color: #666666" @click="btnSubmit"/>
 					</span>
 				</div>		
 			</div>
     </div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.20.0-0/axios.js"></script>
+<script type="text/javascript" src="js/service.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            info:{
+ 				
+            }
+        },
+        methods:{
+            initialize:function() {
+
+            },
+            /**
+             * [btnConfirm 确认to]
+             * @author        szjcomo
+             * @createTime 2020-07-31
+             * @return     {[type]}   [description]
+             */
+            btnSubmit:async function() {
+   				let that = this;
+   				let validate = that.submit_validate();
+   				if(validate.error !== false) {
+   					layer.alert(validate.message,szjcomo_service.layer_options({icon:2,title:'信息完善提醒'}));
+   					return false;
+   				}
+                validate.data.etList = {etList:[{
+                        aufnr:'',
+                        bestq:'',
+                        bwart:'',
+                        bwlvs:'',
+                        bwref:'',
+                        charg:'',
+                        kostl:'',
+                        lgnum:'',
+                        lgort:'',
+                        lgref:'',
+                        ltkza:'',
+                        maktx:'',
+                        matnr:'',
+                        mblnr:'',
+                        meins:'',
+                        menga: 0,
+                        menge: 0,
+                        mjahr:'',
+                        sobkz:'',
+                        tamea: 0,
+                        tbnum:'',
+                        tbpos:'',
+                        werks:'',
+                        zeile:''
+                }]};
+                validate.data.etMblnr ={item:[{mblnr:''}]};
+                if(!validate.data.iWempf) validate.data.iWempf = '';
+                if(!validate.data.iAufnr) validate.data.iAufnr = '';
+                validate.data.iUname = 'MOONSRFC';
+   				let result = await szjcomo_service.po_return_index(validate.data);
+   				if(result.error !== false) {
+   					layer.alert(result.message,szjcomo_service.layer_options({icon:2,title:'信息提交失败提醒'}));
+   					return false;
+   				}
+   				layer.alert(result.message,szjcomo_service.layer_options({icon:1,title:'数据操作成功提醒'}));
+            },
+   			/**
+   			 * [submit_validate 表单检查]
+   			 * @author 	   szjcomo
+   			 * @createTime 2020-07-28
+   			 * @return     {[type]}   [description]
+   			 */
+   			submit_validate:function() {
+   				let that = this;
+   				let fields = {
+   					iMatnr:'物料编码不能为空',
+   					iBwart:'移动类型不能为空',
+   					iLgnum:'仓库编号不能为空',
+   					iHbdatu:'开始时间不能为空',
+   					iLbdatu:'结束时间不能为空',
+   					iWerks:'工厂编号不能为空'
+   				};
+   				let res = szjcomo_service.check_empty(fields,that.info);
+                console.log(res);
+   				return res;
+   			},
+            /**
+             * [btnDelete 清空所选]
+             * @author 	   szjcomo
+             * @createTime 2020-07-31
+             * @return     {[type]}   [description]
+             */
+            btnDelete:function() {
+            	let that = this;
+            	that.info = {};
+            }
+        },
+        created:function() {
+            this.initialize();
+        }
+    });
+</script>
 </body>
 </html>

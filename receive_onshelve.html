@@ -21,12 +21,12 @@
 				<a href="receive_home.html" style="font-size:18px;"><div class="menu" style="margin-top:20px;">返回上级</div></a>
 				<div class="normal-form-row">
 					<span style="padding-top:10px; text-align: right">
-						条码信息 <input type="text" id="txtBarcode" style="width: 72%" v-model="info.tiaoma"/>
+						工厂编号 <input type="text" id="txtBarcode" style="width: 72%" v-model="info.werks"/>
 					</span>
 				</div>	
 				<div class="normal-form-row">
 					<span style="padding-top:10px; text-align: right">
-						提示信息 <input type="text" id="txtNotification" style="width: 72%" v-model="info.message"/>
+						提示信息 <input type="text" id="txtNotification" style="width: 72%"/>
 					</span>
 				</div>
 				<div class="normal-form-row">
@@ -36,42 +36,42 @@
 				</div>
 				<div class="normal-form-row">
 					<span style="padding-top:10px; text-align: right">
-						物料描述 <input type="text" id="txtVendor" style="width: 72%" v-model="info.matnr_desc"/>
+						物料描述 <input type="text" id="txtVendor" style="width: 72%" v-model="info.maktx"/>
 					</span>
 				</div>
 				<div class="normal-form-row">
 					<span style="padding-top:10px; text-align: right">
-						生产批次 <input type="text" id="txtVendor" style="width: 72%" v-model="info.product_batch"/>
+						生产批次 <input type="text" id="txtVendor" style="width: 72%" v-model="info.charg"/>
 					</span>
 				</div> 
 				<div class="normal-form-row">
 					<span style="padding-top:10px; text-align: right">
-						生产日期 <input type="text" id="txtVendor" style="width: 72%" v-model="info.product_date"/>
+						生产日期 <input type="text" id="txtVendor" style="width: 72%" v-model="info.pridt"/>
 					</span>
 				</div>
 				<div class="normal-form-row">
 					<span style="padding-top:10px; text-align: right">
-						上架数量 <input type="text" id="txtVendor" style="width: 72%" v-model="info.product_number"/>
+						上架数量 <input type="text" id="txtVendor" style="width: 72%" v-model="info.inpme"/>
 					</span>
 				</div>
 				<div class="normal-form-row">
 					<span style="padding-top:10px; text-align: right">
-						剩余入数 <input type="text" id="txtVendor" style="width: 72%" v-model="info.remainder"/>
+						剩余入数 <input type="text" id="txtVendor" style="width: 72%"/>
 					</span>
 				</div>
 				<div class="normal-form-row">
 					<span style="padding-top:10px; text-align: right">
-						仓储类型 <input type="text" id="txtVendor" style="width: 72%" v-model="info.stock_type"/>
+						仓储类型 <input type="text" id="txtVendor" style="width: 72%" v-model="info.letyp"/>
 					</span>
 				</div>
 				<div class="normal-form-row">
 					<span style="padding-top:10px; text-align: right">
-						库存地点 <input type="text" id="txtVendor" style="width: 72%" v-model="info.stock_address"/>
+						库存地点 <input type="text" id="txtVendor" style="width: 72%" v-model="info.lgort"/>
 					</span>
 				</div>
 				<div class="normal-form-row">
 					<span style="padding-top:10px; text-align: right">
-						货 架 <input type="text" id="txtVendor" style="width: 72%" v-model="info.stock_number"/> 	          
+						货 架 <input type="text" id="txtVendor" style="width: 72%" v-model="info.lgnum"/> 	          
 					</span>
 				</div> 
 				<!-- <div class="normal-form-row">
@@ -103,17 +103,34 @@
     	el:'#app',
     	data:{
     		info:{
-    			tiaoma:'',
-    			message:'',
+    			//物料编号
     			matnr:'',
-    			matnr_desc:'',
-    			product_batch:'',
-    			product_date:'',
-    			product_number:'',
-    			remainder:'',
-    			stock_type:'',
-    			stock_address:'',
-    			stock_number:''
+    			//物料描述
+    			maktx:'',
+    			//生产批次 批号
+    			charg:'',
+    			//实际入库数量
+    			inpme:'',
+    			//仓储单位类型
+    			letyp:'',
+    			//库存地点
+    			lgort:'',
+    			//仓库号/混合仓库
+    			lgnum:'',
+    			//仓位
+    			lgpla:'',
+    			//供应商
+    			lifnr:'',
+    			//计量单位
+    			meins:'',
+    			//生产日期
+    			pridt:'',
+    			//入库已经转为物料凭证
+    			rkqui:'',
+    			//特殊库存标识
+    			sobkz:'',
+    			//工厂编号
+    			werks:''
     		}
     	},
     	methods:{
@@ -129,17 +146,34 @@
     		btnDelete:function() {
     			let that = this;
     			that.info = {
-	    			tiaoma:'',
-	    			message:'',
+	    			//物料编号
 	    			matnr:'',
-	    			matnr_desc:'',
-	    			product_batch:'',
-	    			product_date:'',
-	    			product_number:'',
-	    			remainder:'',
-	    			stock_type:'',
-	    			stock_address:'',
-	    			stock_number:''
+	    			//物料描述
+	    			maktx:'',
+	    			//生产批次 批号
+	    			charg:'',
+	    			//实际入库数量
+	    			inpme:'',
+	    			//仓储单位类型
+	    			letyp:'',
+	    			//库存地点
+	    			lgort:'',
+	    			//仓库号/混合仓库
+	    			lgnum:'',
+	    			//仓位
+	    			lgpla:'',
+	    			//供应商
+	    			lifnr:'',
+	    			//计量单位
+	    			meins:'',
+	    			//生产日期
+	    			pridt:'',
+	    			//入库已经转为物料凭证
+	    			rkqui:'',
+	    			//特殊库存标识
+	    			sobkz:'',
+	    			//工厂编号
+	    			werks:''
     			};
     		},
     		/**
@@ -155,7 +189,7 @@
     				layer.alert(validate.message,szjcomo_service.layer_options({title:'信息完善提醒',icon:2}));
     				return false;
     			}
-    			let result = await szjcomo_service.receive_onshelve(validate.data);
+    			let result = await szjcomo_service.receive_onshelve({itList:{item:[validate.data]}});
     			if(result.error !== false) {
     				layer.alert(result.message,szjcomo_service.layer_options({title:'入库上架失败提醒',icon:2}));
     				return false;
@@ -170,17 +204,8 @@
     		 */
     		submit_validate:function() {
     			let that = this;
-    			if(that.info.tiaoma.length == 0) return szjcomo_service.appResult('条码信息不能为空');
-    			if(that.info.message.length == 0) return szjcomo_service.appResult('提示信息不能为空');
+    			if(that.info.werks.length == 0) return szjcomo_service.appResult('工厂编号不能为空');
     			if(that.info.matnr.length == 0) return szjcomo_service.appResult('物料编码不能为空');
-    			if(that.info.matnr_desc.length == 0) return szjcomo_service.appResult('物料描述信息不能为空');
-    			if(that.info.product_batch.length == 0) return szjcomo_service.appResult('生产批次不能为空');
-    			if(that.info.product_date.length == 0) return szjcomo_service.appResult('生产日期不能为空');
-    			if(that.info.product_number.length == 0) return szjcomo_service.appResult('上架数量不能为空');
-    			if(that.info.remainder.length == 0) return szjcomo_service.appResult('剩余入数不能为空');
-    			if(that.info.stock_type.length == 0) return szjcomo_service.appResult('仓储类型不能为空');
-    			if(that.info.stock_address.length == 0) return szjcomo_service.appResult('库存地点不能为空');
-    			if(that.info.stock_number.length == 0) return szjcomo_service.appResult('货 架不能为空');
     			return szjcomo_service.appResult('SUCCESS',that.info,false);
      		}
     	},

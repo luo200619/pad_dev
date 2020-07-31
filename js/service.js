@@ -77,9 +77,30 @@ var szjcomo_service = {
 	receive_goods:async function(options) {
 		let that = this;
 		try {
-			let result = await that.post('sap/ziqcGetMaterialBin',options);
-			if(result.status != 200) return that.appResult(result.message);
-			return that.appResult(result.eMessage,result,false);
+			let result = await that.post('sap/ziqcPoOpenquntList',options);
+			if(result.status) return that.appResult(result.message);
+			result = await that.create_101_data({inPoitem:{item:result.ltPoitem.item}});
+			return result;
+		} catch(err) {
+			return that.appResult(err.message);
+		}
+	},
+	/**
+	 * [create_101_data 创建101物料凭证]
+	 * @author 	   szjcomo
+	 * @createTime 2020-07-30
+	 * @param      {[type]}   options [description]
+	 * @return     {[type]}           [description]
+	 */
+	create_101_data:async function(options) {
+		let that = this;
+		try {
+			let result = await that.post('sap/ziqcPo101GoodsMvt',options);
+			if(result.status) return that.appResult(result.message);
+			if(result.otResult) return that.appResult(result.otMessage,result);
+			let message = result.otMessage;
+			message = (message && message.length > 0)?message:'数据操作成功';
+			return that.appResult(message,result,false);
 		} catch(err) {
 			return that.appResult(err.message);
 		}
@@ -94,9 +115,28 @@ var szjcomo_service = {
 	receive_onshelve:async function(options = {}) {
 		let that = this;
 		try {
-			let result = await that.post('sap/ziqcGetMaterialBin',options);
-			if(result.status != 200) return that.appResult(result.message);
+			let result = await that.post('sap/ziqcStockQuntShelv',options);
+			if(result.status) return that.appResult(result.message);
+			if(result.eResult.length > 0) return that.appResult(result.eMessage);
 			return that.appResult(result.eMessage,result,false);
+		} catch(err) {
+			return that.appResult(err.message);
+		}
+	},
+	/**
+	 * [confirm_index 确认to]
+	 * @author 	   szjcomo
+	 * @createTime 2020-07-31
+	 * @param      {Object}   options [description]
+	 * @return     {[type]}           [description]
+	 */
+	confirm_index:async function(options = {}) {
+		let that = this;
+		try {
+			let result = await that.post('sap/ziqcConfirmToDnPdt',options);
+			if(result.status) return that.appResult(result.message);
+			if(result.eResult.length > 0) return that.appResult(result.eMessage);
+			return that.appResult('数据操作成功',result,false);
 		} catch(err) {
 			return that.appResult(err.message);
 		}
@@ -112,8 +152,9 @@ var szjcomo_service = {
 		let that = this;
 		try {
 			let result = await that.post('sap/ziqcGet261MblnrList',options);
-			if(result.status != 200) return that.appResult(result.message);
-			return that.appResult(result.eMessage,result,false);
+			if(result.status) return that.appResult(result.message);
+			if(result.eResult.length > 0) return that.appResult(result.eMessage);
+			return that.appResult('数据操作成功',result,false);
 		} catch(err) {
 			return that.appResult(err.message);
 		}
@@ -181,6 +222,25 @@ var szjcomo_service = {
 			let result = await that.post('sap/ziqcGet261MblnrList',options);
 			if(result.status != 200) return that.appResult(result.message);
 			return that.appResult(result.eMessage,result,false);
+		} catch(err) {
+			return that.appResult(err.message);
+		}
+	},
+	//****************************物料配送*******************************
+	/**
+	 * [order_return_index 生产工单退料]
+	 * @author 	   szjcomo
+	 * @createTime 2020-07-31
+	 * @param      {Object}   options [description]
+	 * @return     {[type]}           [description]
+	 */
+	order_return_index:async function(options = {}) {
+		let that = this;
+		try {
+			let result = await that.post('sap/ziqcConfirmToDnPdt',options);
+			if(result.status) return that.appResult(result.message);
+			if(result.eResult.length > 0) return that.appResult(result.eMessage);
+			return that.appResult('数据操作成功',result,false);
 		} catch(err) {
 			return that.appResult(err.message);
 		}
@@ -257,7 +317,7 @@ var szjcomo_service = {
 	 * @return     {[type]}   [description]
 	 */
 	openLoading:function(loading = true) {
-		layer.load(0);
+		if(loading) layer.load(0,{time:10 * 1000});
 	},
 	/**
 	 * [closeLoading 关闭请求效果]
@@ -265,7 +325,7 @@ var szjcomo_service = {
 	 * @createTime 2019-12-09
 	 * @return     {[type]}   [description]
 	 */
-	closeLoading:function(loading = true) {
+	closeLoading:function() {
 		layer.closeAll('loading');
 	},
 	/**

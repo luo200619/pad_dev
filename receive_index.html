@@ -33,17 +33,17 @@
                 <a href="receive_home.html" style="font-size:18px;"><div class="menu" style="margin-top:20px;">返回上级</div></a>
                 <div class="normal-form-row">
                     <span style="padding-top:10px; text-align: right">
-                        条码信息 <input type="text" id="txtBarcode" style="width: 72%" v-model="info.tiaoma"/>
+                        条码信息 <input type="text" id="txtBarcode" style="width: 72%" v-model="info.matnr"/>
                     </span>
                 </div>
                 <div class="normal-form-row">
                     <span style="padding-top:10px; text-align: right">
-                        提示信息 <input type="text" id="txtNotification" style="width: 72%" v-model="info.message" />
+                        提示信息 <input type="text" id="txtNotification" style="width: 72%" v-model="info.txz01" />
                     </span>
                 </div>
                 <div class="normal-form-row">
                     <span style="padding-top:10px; text-align: right">
-                        供 应 商 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iUname"/>
+                        供 应 商 <input type="text" id="txtVendor" style="width: 72%" v-model="info.lifnr"/>
                     </span>
                 </div>
                 <div style="height: 1px; background-color: #f2f3f4; margin-top:10px;"></div>
@@ -70,9 +70,12 @@
         el:'#app',
         data:{
             info:{
-                tiaoma:'',
-                message:'',
-                iUname:''
+                matnr:'000004634140208596',
+                txz01:'',
+                lifnr:'105113',
+                menge:0,
+                ebeln:'400011936',
+                lfnam:''
             }
         },
         methods:{
@@ -87,9 +90,14 @@
              */
             btnDelete:function() {
                 let that = this;
-                that.info.tiaoma = '';
-                that.info.message = '';
-                that.info.iUname = '';
+                that.info = {
+                    matnr:'',
+                    txz01:'',
+                    lifnr:'',
+                    menge:0,
+                    ebeln:'',
+                    lfnam:''
+                };
             },
             /**
              * [btnSubmit 提交信息]
@@ -104,12 +112,12 @@
                     layer.alert(validate.message,szjcomo_service.layer_options({title:'参数完善提醒',icon:2}));
                     return false;
                 }
-                let result = await szjcomo_service.receive_goods(validate.data);
+                let result = await szjcomo_service.receive_goods({ltPoitem:{item:[validate.data]}});
                 if(result.error !== false) {
                     layer.alert(result.message,szjcomo_service.layer_options({title:'数据操作失败提醒',icon:2}));
                     return false;
                 }
-                console.log(result);
+                layer.alert(result.message,szjcomo_service.layer_options({icon:2,title:'数据操作成功提醒'}));
             },
             /**
              * [submit_validate 参数验证]
@@ -119,9 +127,8 @@
              */
             submit_validate:function() {
                 let that = this;
-                if(that.info.tiaoma.length == 0) return szjcomo_service.appResult('条码信息不能为空');
-                if(that.info.message.length == 0) return szjcomo_service.appResult('提示信息不能为空');
-                if(that.info.iUname.length == 0) return szjcomo_service.appResult('供应商名称不能为空');
+                if(that.info.matnr.length == 0) return szjcomo_service.appResult('条码信息不能为空');
+                if(that.info.lifnr.length == 0) return szjcomo_service.appResult('供应商名称不能为空');
                 return szjcomo_service.appResult('SUCCESS',that.info,false);
             }
         },

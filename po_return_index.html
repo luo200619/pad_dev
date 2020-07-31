@@ -21,12 +21,12 @@
 				<a href="receive_home.html" style="font-size:18px;"><div class="menu" style="margin-top:20px;">返回上级</div></a>
 				<div class="normal-form-row">
 					<span style="padding-top:8px">
-						工厂编号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iAufnr" />
+						工厂编号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iWerks" />
 					</span>
 				</div> 
 				<div class="normal-form-row">
 					<span style="padding-top:8px">
-						仓库编号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iBwart" />
+						仓库编号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iLgnum" />
 					</span>
 				</div>
 				<div class="normal-form-row">
@@ -36,7 +36,7 @@
 				</div> 
 				<div class="normal-form-row">
 					<span style="padding-top:8px">
-						退库凭证 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iLgnum" />
+						退库凭证 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iAufnr" />
 					</span>
 				</div>
 				<div class="normal-form-row">
@@ -51,12 +51,12 @@
 				</div>
 				<div class="normal-form-row">
 					<span style="padding-top:8px">
-						移动类型 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iWempf" />
+						移动类型 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iBwart" />
 					</span>
 				</div>
 				<div class="normal-form-row">
 					<span style="padding-top:8px">
-						采购单号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iWerks" />
+						采购单号 <input type="text" id="txtVendor" style="width: 72%" v-model="info.iWempf" />
 					</span>
 				</div>
 				<div style="height: 1px; background-color: #f2f3f4; margin-top:10px;"></div>
@@ -95,12 +95,42 @@
    					layer.alert(validate.message,szjcomo_service.layer_options({icon:2,title:'信息完善提醒'}));
    					return false;
    				}
+                validate.data.etList = {etList:[{
+                        aufnr:'',
+                        bestq:'',
+                        bwart:'',
+                        bwlvs:'',
+                        bwref:'',
+                        charg:'',
+                        kostl:'',
+                        lgnum:'',
+                        lgort:'',
+                        lgref:'',
+                        ltkza:'',
+                        maktx:'',
+                        matnr:'',
+                        mblnr:'',
+                        meins:'',
+                        menga: 0,
+                        menge: 0,
+                        mjahr:'',
+                        sobkz:'',
+                        tamea: 0,
+                        tbnum:'',
+                        tbpos:'',
+                        werks:'',
+                        zeile:''
+                }]};
+                validate.data.etMblnr ={item:[{mblnr:''}]};
+                if(!validate.data.iWempf) validate.data.iWempf = '';
+                if(!validate.data.iAufnr) validate.data.iAufnr = '';
+                validate.data.iUname = 'MOONSRFC';
    				let result = await szjcomo_service.po_return_index(validate.data);
    				if(result.error !== false) {
    					layer.alert(result.message,szjcomo_service.layer_options({icon:2,title:'信息提交失败提醒'}));
    					return false;
    				}
-   				console.log(result);
+   				layer.alert(result.message,szjcomo_service.layer_options({icon:1,title:'数据操作成功提醒'}));
    			},
    			/**
    			 * [submit_validate 表单检查]
@@ -111,16 +141,15 @@
    			submit_validate:function() {
    				let that = this;
    				let fields = {
-   					iAufnr:'工厂编号不能为空',
    					iMatnr:'物料编码不能为空',
-   					iBwart:'仓库编号不能为空',
-   					iLgnum:'退库凭证不能为空',
+   					iBwart:'移动类型不能为空',
+   					iLgnum:'仓库编号不能为空',
    					iHbdatu:'开始时间不能为空',
    					iLbdatu:'结束时间不能为空',
-   					iWempf:'移动类型不能为空',
-   					iWerks:'采购单号不能为空'
+   					iWerks:'工厂编号不能为空'
    				};
    				let res = szjcomo_service.check_empty(fields,that.info);
+                console.log(res);
    				return res;
    			},
    			/**

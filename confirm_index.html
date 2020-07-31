@@ -1,52 +1,77 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>确认TO</title>
-    
     <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/jquery-ui-1.10.css" rel="stylesheet" type="text/css" />
-
+    <link rel="stylesheet" href="css/layer-app.css">
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.10.js"></script>
     <script type="text/javascript" src="js/jquery.form.js"></script>
     <script type="text/javascript" src="js/jquery-bpopup-min.js"></script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-    <script type="text/javascript">
-        $(function () {
-            $('#btnBack').click(function () {
-                document.location.href = "home.html";
-            });
-            
-			$(document).ready(function () {
-            });
-        });
-    </script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.js"></script>
 </head>
 <body>
-    <div id="dialog" title="提示消息" style="display: none; width: 200px; height: 120px;">
-        <div id="divMsg" style="color: #fff; margin: 30px; text-align:center;">
-        </div>
+    <div class="content" id="app">
+        <div class="container"> 
+            <a href="receive_home.html" style="font-size:18px;"><div class="menu" style="margin-top:20px;">返回上级</div></a>
+            <div class="normal-form-row">
+                <span style="padding-top:10px; text-align: center">
+                    <input type="button" value=" 连接物料配送的“确认TO” " style="color: #666666;" @click="btnConfirm"/>           
+                </span>
+            </div>
+            <div style="height: 1px; background-color:#f2f3f4; margin-top:10px;"></div>
+        </div>  
     </div>
-    <div class="content">
-	
-        <div class="container">	
-			
-			<a href="receive_home.html" style="font-size:18px;"><div class="menu" style="margin-top:20px;">返回上级</div></a>
-			<div class="normal-form-row">
-				<span style="padding-top:10px; text-align: center">
-					<input type="button" id="btnConfirm" value=" 连接物料配送的“确认TO” " style="color: #666666;" />	          
-				</span>
-			</div>
-			<div style="height: 1px; background-color:#f2f3f4; margin-top:10px;"></div>
-			</div>	
-			
-		
-			
-		</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.20.0-0/axios.js"></script>
+<script type="text/javascript" src="js/service.js"></script>
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            info:{
+                etTo: {item: [{tanum: ''}]},
+                itConfirm: {item: [{
+                    lgnum: '',
+                    matnr: '',
+                    meins: '',
+                    tanum: '',
+                    tapos: '',
+                    vbeln: '',
+                    vlenr: '',
+                    vsolm: 0
+                  }]
+                }
+            }
+        },
+        methods:{
+            initialize:function() {
 
+            },
+            /**
+             * [btnConfirm 确认to]
+             * @author        szjcomo
+             * @createTime 2020-07-31
+             * @return     {[type]}   [description]
+             */
+            btnConfirm:async function() {
+                let that = this;
+                let result = await szjcomo_service.confirm_index(that.info);
+                if(result.error !== false) {
+                    layer.alert(result.message,szjcomo_service.layer_options({icon:2,title:'数据操作提醒'}));
+                    return false;
+                }
+                console.log(result);
+            }
+        },
+        created:function() {
+            this.initialize();
+        }
+    });
+</script>
 </body>
 </html>
